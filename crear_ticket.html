@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Ticket</title>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCgcaEJu-2dWhLc2yNmDeTw79RFVbOWfk",
+            authDomain: "ticketsbd-63cc0.firebaseapp.com",
+            projectId: "ticketsbd-63cc0",
+            storageBucket: "ticketsbd-63cc0.firebasestorage.app",
+            messagingSenderId: "762257193687",
+            appId: "1:762257193687:web:aec0d145d81ab2ada84e92"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center h-screen">
+    <h2 class="text-2xl font-bold mb-4">Crear Nuevo Ticket</h2>
+    <input id="nombre" type="text" placeholder="Nombre" class="w-80 p-2 border rounded mb-2">
+    <input id="titulo" type="text" placeholder="Título" class="w-80 p-2 border rounded mb-2">
+    <textarea id="descripcion" placeholder="Descripción" class="w-80 p-2 border rounded mb-2"></textarea>
+    <select id="prioridad" class="w-80 p-2 border rounded mb-2">
+        <option value="baja">Baja</option>
+        <option value="media">Media</option>
+        <option value="alta">Alta</option>
+    </select>
+    <select id="categoria" class="w-80 p-2 border rounded mb-2">
+        <option value="soporte">Soporte</option>
+        <option value="mantenimiento">Mantenimiento</option>
+        <option value="otro">Otro</option>
+    </select>
+    <button onclick="crearTicket()" class="w-80 bg-blue-500 text-white p-2 rounded">Crear Ticket</button>
+    <script>
+        function crearTicket() {
+            const nombre = document.getElementById("nombre").value;
+            const titulo = document.getElementById("titulo").value;
+            const descripcion = document.getElementById("descripcion").value;
+            const prioridad = document.getElementById("prioridad").value;
+            const categoria = document.getElementById("categoria").value;
+            const estado = "abierto";
+            const fechaRegistro = new Date();
+            const id = Date.now().toString();
+            
+            db.collection("tickets").doc(id).set({
+                id, nombre, titulo, descripcion, prioridad, estado, categoria, fechaRegistro
+            })
+            .then(() => {
+                alert("Ticket creado con éxito");
+                window.location.href = 'dashboard.html';
+            })
+            .catch(error => alert(error.message));
+        }
+    </script>
+</body>
+</html>

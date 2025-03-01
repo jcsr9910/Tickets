@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tickets</title>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCgcaEJu-2dWhLc2yNmDeTw79RFVbOWfk",
+            authDomain: "ticketsbd-63cc0.firebaseapp.com",
+            projectId: "ticketsbd-63cc0",
+            storageBucket: "ticketsbd-63cc0.firebasestorage.app",
+            messagingSenderId: "762257193687",
+            appId: "1:762257193687:web:aec0d145d81ab2ada84e92"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white p-4 text-center text-xl font-bold">
+        Lista de Tickets
+    </header>
+    <main class="p-6">
+        <h2 class="text-2xl font-bold mb-4">Tickets Registrados</h2>
+        <table class="min-w-full bg-white border rounded-lg">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2 border">ID</th>
+                    <th class="px-4 py-2 border">Título</th>
+                    <th class="px-4 py-2 border">Estado</th>
+                    <th class="px-4 py-2 border">Prioridad</th>
+                    <th class="px-4 py-2 border">Categoría</th>
+                    <th class="px-4 py-2 border">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="ticketsTable">
+                <!-- Los tickets se insertarán aquí -->
+            </tbody>
+        </table>
+    </main>
+    <script>
+        async function cargarTickets() {
+            const snapshot = await db.collection("tickets").get();
+            const ticketsTable = document.getElementById("ticketsTable");
+            ticketsTable.innerHTML = "";
+            
+            snapshot.forEach(doc => {
+                const ticket = doc.data();
+                const row = `<tr>
+                    <td class='px-4 py-2 border'>${ticket.id}</td>
+                    <td class='px-4 py-2 border'>${ticket.titulo}</td>
+                    <td class='px-4 py-2 border'>${ticket.estado}</td>
+                    <td class='px-4 py-2 border'>${ticket.prioridad}</td>
+                    <td class='px-4 py-2 border'>${ticket.categoria}</td>
+                    <td class='px-4 py-2 border'><a href='detalle_ticket.html?id=${ticket.id}' class='text-blue-500'>Ver</a></td>
+                </tr>`;
+                ticketsTable.innerHTML += row;
+            });
+        }
+        cargarTickets();
+    </script>
+</body>
+</html>

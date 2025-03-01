@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autenticación</title>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js"></script>
+
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCgcaEJu-2dWhLc2yNmDeTw79RFVbOWfk",
+      authDomain: "ticketsbd-63cc0.firebaseapp.com",
+      projectId: "ticketsbd-63cc0",
+      storageBucket: "ticketsbd-63cc0.firebasestorage.app",
+      messagingSenderId: "762257193687",
+      appId: "1:762257193687:web:aec0d145d81ab2ada84e92"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center h-screen">
+    <h2 class="text-2xl font-bold mb-4">Login / Registro</h2>
+    <input id="email" type="email" placeholder="Correo" class="w-80 p-2 border rounded mb-2">
+    <input id="password" type="password" placeholder="Contraseña" class="w-80 p-2 border rounded mb-4">
+    <button onclick="login()" class="w-80 bg-blue-500 text-white p-2 rounded mb-2">Iniciar Sesión</button>
+    <button onclick="register()" class="w-80 bg-green-500 text-white p-2 rounded">Registrarse</button>
+    <script>
+        function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(() => window.location.href = 'dashboard.html')
+                .catch(error => alert(error.message));
+        }
+        function register() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then(() => alert("Registro exitoso, inicia sesión"))
+                .catch(error => alert(error.message));
+        }
+    </script>
+</body>
+</html>
